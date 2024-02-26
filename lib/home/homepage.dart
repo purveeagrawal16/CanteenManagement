@@ -5,6 +5,7 @@ import 'package:canteen/home/top_picks.dart';
 import 'package:flutter/material.dart';
 import '../breakfast/breakfast.dart';
 import '../check_out/cart_screen.dart';
+import 'package:canteen/breakfast/foodtile.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -16,8 +17,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final List<String> l1 = ["Poha", "Wadapav", "Bread pattis"];
-
+    final List<String> l1 = ["Poha", "Sandwich", "Wadapav", "Bread pattis"];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -211,10 +211,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: ListView.builder(
+                itemCount: l1.length,
                 itemBuilder: (context, index) {
-                  return TopPicks(item: l1[index]);
-                },
-                itemCount: l1.length),
+                  return Foodtile(item: l1[index]);
+                }),
           ),
         ],
       ),

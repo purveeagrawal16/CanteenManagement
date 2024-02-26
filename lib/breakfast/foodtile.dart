@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 
-class Foodtile extends StatelessWidget {
+class Foodtile extends StatefulWidget {
   final String? item;
   Foodtile({this.item});
+
+  @override
+  State<Foodtile> createState() => _FoodtileState();
+}
+
+class _FoodtileState extends State<Foodtile> {
+  int _counter = 0;
+
+  void _incrementCount() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCount() {
+    setState(() {
+      _counter--;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +49,7 @@ class Foodtile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item!,
+                      widget.item!,
                       style: TextStyle(fontSize: 20),
                     ),
                     const Text(
@@ -40,7 +59,7 @@ class Foodtile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -52,16 +71,28 @@ class Foodtile extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Icon(
-                                Icons.remove_circle,
-                                color: Color(0xFFC51F3B),
+                              IconButton(
+                                onPressed: (){
+                                  if(_counter > 0)
+                                  {
+                                    _decrementCount();
+                                  }
+                                  else print("Negative");
+                                },
+                                icon: const Icon(
+                                  Icons.remove_circle,
+                                  color: Color(0xFFC51F3B),
+                                ),
                               ),
                               SizedBox(width: 10),
-                              Text("1", style: TextStyle(fontSize: 20)),
+                              Text("$_counter", style: TextStyle(fontSize: 20)),
                               SizedBox(width: 10),
-                              Icon(
-                                Icons.add_circle,
-                                color: Color(0xFFC51F3B),
+                              IconButton(
+                                onPressed: _incrementCount,
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  color: Color(0xFFC51F3B),
+                                ),
                               ),
                             ],
                           ),

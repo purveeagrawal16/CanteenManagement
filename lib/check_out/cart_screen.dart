@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'components/custom_button.dart';
 import 'components/product.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+
+
+class CartScreen extends StatefulWidget {
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  // const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
