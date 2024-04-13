@@ -1,8 +1,9 @@
+import 'package:canteen/Provider/Bfastpro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'components/custom_button.dart';
 import 'components/product.dart';
-
-
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int cost = 0;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -37,63 +39,50 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Consumer<Bprovider>(
+        builder: (context, value, builder) => Column(
           children: [
-            ProductInfo(
-              name: 'Samosa',
-              image: Image.asset('assets/images/food.jpg'),
-              amount: 12313,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ProductInfo(
-              name: 'Samosa',
-              image: Image.asset('assets/images/food.jpg'),
-              amount: 12313,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ProductInfo(
-              name: 'Samosa',
-              image: Image.asset('assets/images/food.jpg'),
-              amount: 12313,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ProductInfo(
-              name: 'Samosa',
-              image: Image.asset('assets/images/food.jpg'),
-              amount: 12313,
-            ),
-            const SizedBox(
-              height: 10,
+            Expanded(
+              child: ListView.builder(
+                itemCount: value.bordered().length,
+                itemBuilder: (context, index) => ProductInfo(
+                  name: value.bordered()[index].name!,
+                  image: Image.asset(
+                    'assets/images/food.jpg',
+                    fit: BoxFit.fill,
+                    height: 100,
+                    width: 100,
+                  ),
+                  amount: (value.bordered()[index].price!) *
+                      (value.bordered()[index].ordval!),
+                  qnty: value.bordered()[index].ordval,
+                ),
+              ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text.rich(
-              TextSpan(
-                text: 'Total:\n',
-                children: [
-                  TextSpan(
-                      text: '\$12313',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 26,
-                      )),
-                ],
+      bottomNavigationBar: Consumer<Bprovider>(
+        builder: (context, value, _) => BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: 'Total:\n',
+                  children: [
+                    TextSpan(
+                        text: '\₹${value.total}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 26,
+                        )),
+                  ],
+                ),
               ),
-            ),
-            Custombutton(),
-          ],
+              Custombutton(),
+            ],
+          ),
         ),
       ),
     );

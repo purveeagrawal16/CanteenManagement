@@ -4,11 +4,14 @@ class ProductInfo extends StatefulWidget {
   final String name;
   final Image image;
   final int amount;
+  final int? qnty;
+
   const ProductInfo(
       {super.key,
       required this.name,
       required this.image,
-      required this.amount});
+      required this.amount,
+      required this.qnty});
 
   @override
   State<ProductInfo> createState() => _ProductInfoState();
@@ -141,7 +144,7 @@ class _ProductInfoState extends State<ProductInfo> {
                                 borderRadius: BorderRadius.circular(3),
                                 color: Colors.white),
                             child: Text(
-                              itemcount.toString(),
+                              '${widget!.qnty}',
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 16),
                             ),

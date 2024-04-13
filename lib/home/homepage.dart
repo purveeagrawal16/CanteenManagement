@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../breakfast/breakfast.dart';
 import '../check_out/cart_screen.dart';
 import 'package:canteen/breakfast/foodtile.dart';
+import '../breakfast/Beverage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -15,6 +16,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool buttondisable = false;
+  bool buttondisable2 = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(DateTime.now());
+    checktime();
+    checktime2();
+  }
+
+  void checktime2() {
+    DateTime curr_time = DateTime.now();
+    DateTime disable_time =
+        DateTime(curr_time.year, curr_time.month, curr_time.day, 21, 0);
+    DateTime enable_time =
+        DateTime(curr_time.year, curr_time.month, curr_time.day, 16, 0);
+    print(curr_time.isAfter(disable_time));
+    print(curr_time.isBefore(enable_time));
+    if (curr_time.isAfter(disable_time) || curr_time.isBefore(enable_time)) {
+      setState(() {
+        buttondisable2 = true;
+      });
+    }
+  }
+
+  void checktime() {
+    DateTime curr_time = DateTime.now();
+    DateTime disable_time =
+        DateTime(curr_time.year, curr_time.month, curr_time.day, 16, 0);
+    DateTime enable_time =
+        DateTime(curr_time.year, curr_time.month, curr_time.day, 7, 0);
+    print(curr_time.isAfter(disable_time));
+    print(curr_time.isBefore(enable_time));
+    if (curr_time.isAfter(disable_time) || curr_time.isBefore(enable_time)) {
+      setState(() {
+        //buttondisable = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<String> l1 = ["Poha", "Sandwich", "Wadapav", "Bread pattis"];
@@ -28,6 +71,22 @@ class _MyHomePageState extends State<MyHomePage> {
           'PICT CANTEEN',
           style: TextStyle(fontSize: 20),
         ),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            'assets/images/logo.jpeg',
+            width: 100,
+            height: 100,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              // Handle onPressed for the logout button
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -76,15 +135,13 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Container(
+                Row(children: [
+                  Expanded(
+                    child: Container(
                       padding: EdgeInsets.all(10),
+                      // Remove width constraint
                       height: 70,
-                      width: MediaQuery.of(context).size.width / 2 - 30,
-                      // Divide the screen width equally among 4 containers
                       decoration: BoxDecoration(
-                        // color: Colors.red,
                         border: Border.all(color: Colors.red, width: 2),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
@@ -95,41 +152,123 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return Bfastpage();
+                            return Bfastpage(category: 'beverages');
                           }));
                         },
                         child: const Text(
-                          'Breakfast',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          'Beverages',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      height: 70,
-                      width: MediaQuery.of(context).size.width / 2 - 30,
-                      // Divide the screen width equally among 4 containers
-                      decoration: BoxDecoration(
-                        // color: Colors.red,
-                        border: Border.all(color: Colors.red, width: 2),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      margin: const EdgeInsets.only(left: 5, right: 5),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return Bfastpage();
-                          }));
-                        },
-                        child: const Text(
-                          'Snacks',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                        ),
-                      ),
-                    )
+                  ),
+                ]),
+                SizedBox(height: 15),
+                Row(
+                  children: [
+                    !buttondisable
+                        ? Container(
+                            padding: EdgeInsets.all(10),
+                            height: 70,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            // Divide the screen width equally among 4 containers
+                            decoration: BoxDecoration(
+                              // color: Colors.red,
+                              border: Border.all(color: Colors.red, width: 2),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Bfastpage(category: 'breakfast',);
+                                }));
+                              },
+                              child: const Text(
+                                'Breakfast',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            padding: EdgeInsets.all(10),
+                            height: 70,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            // Divide the screen width equally among 4 containers
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              border: Border.all(color: Colors.black, width: 2),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            child: TextButton(
+                              onPressed: null,
+                              child: const Text(
+                                'Breakfast',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                    !buttondisable2
+                        ? Container(
+                            padding: EdgeInsets.all(10),
+                            height: 70,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            // Divide the screen width equally among 4 containers
+                            decoration: BoxDecoration(
+                              // color: Colors.red,
+                              border: Border.all(color: Colors.red, width: 2),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return Bfastpage(category: 'snacks');
+                                }));
+                              },
+                              child: const Text(
+                                'Snacks',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            padding: EdgeInsets.all(10),
+                            height: 70,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            // Divide the screen width equally among 4 containers
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              border: Border.all(color: Colors.black, width: 2),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            child: TextButton(
+                              onPressed: null,
+                              child: const Text(
+                                'Snacks',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
                 const SizedBox(
@@ -152,10 +291,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       margin: const EdgeInsets.only(left: 5, right: 5),
                       child: TextButton(
                         onPressed: () {
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) {
-                          //   return Bfastpage();
-                          // }));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Bfastpage(category: 'lunch',);
+                          }));
                         },
                         child: const Text(
                           'lunch',
@@ -178,10 +317,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       margin: const EdgeInsets.only(left: 5, right: 5),
                       child: TextButton(
                         onPressed: () {
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) {
-                          //   return Bfastpage();
-                          // }));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return Bfastpage(category: 'dinner',);
+                          }));
                         },
                         child: const Text(
                           'dinner',
@@ -253,3 +392,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+//
+// class breakfast extends StatefulWidget {
+//   const breakfast({super.key});
+//
+//   @override
+//   State<breakfast> createState() => _breakfastState();
+// }
+//
+// class _breakfastState extends State<breakfast> {
+//   @override
+//   Widget build(BuildContext context) {
+//     if(check)
+//   }
+// }

@@ -4,7 +4,7 @@ import '../breakfast/breakfast.dart';
 
 class Categories extends StatelessWidget {
   final String title;
-   Categories({required this.title});
+  Categories({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class Categories extends StatelessWidget {
       margin: const EdgeInsets.only(left: 5, right: 5),
       child: TextButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-                return Bfastpage();
-              }));
+          // Navigator.push(context,
+          //     MaterialPageRoute(builder: (context) {
+          //       return Bfastpage();
+          //     }));
         },
         child: Text(
           title!,

@@ -37,6 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   razorpay_flutter: ^1.2.7
   fluttertoast: ^8.2.4
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.17.7
+  provider: ^6.1.2
+  cloud_firestore: ^4.15.7
+  qr_flutter: ^4.1.0
 
 
 dev_dependencies:
@@ -66,6 +71,7 @@ flutter:
     - assets/images/samosa.jpg
     - assets/images/image.jpg
     - assets/images/food.jpg
+    - assets/images/logo.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
