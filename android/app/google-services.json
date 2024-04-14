@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742288074839",
+    "project_id": "canteen-management-1aa76",
+    "storage_bucket": "canteen-management-1aa76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742288074839:android:af30d777ae822b64c75b12",
+        "android_client_info": {
+          "package_name": "com.purveeagrawal.canteen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJF0upu6EGyORecKllwLGaCN-yKetK8BU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
