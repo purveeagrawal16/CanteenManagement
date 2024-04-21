@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'package:canteen/breakfast/snacks.dart';
 import 'package:canteen/home/categories.dart';
 import 'package:canteen/home/top_picks.dart';
+import 'package:canteen/services/firestorefunc.dart';
 import 'package:flutter/material.dart';
 import '../breakfast/breakfast.dart';
 import '../check_out/cart_screen.dart';
@@ -18,14 +19,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool buttondisable = false;
   bool buttondisable2 = false;
+  String url = '';
 
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
     print(DateTime.now());
     checktime();
     checktime2();
+    getURL();
+  }
+
+  Future<void> getURL() async{
+    String newurl = await UploadImage().fetchImageURL();
+    setState(() {
+      url = newurl;
+    });
   }
 
   void checktime2() {
@@ -187,7 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               onPressed: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return Bfastpage(category: 'breakfast',);
+                                  return Bfastpage(
+                                    category: 'breakfast',
+                                  );
                                 }));
                               },
                               child: const Text(
@@ -204,7 +216,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             // Divide the screen width equally among 4 containers
                             decoration: BoxDecoration(
                               color: Colors.grey,
-                              border: Border.all(color: Colors.black, width: 2),
+                              border:
+                                  Border.all(color: Colors.black, width: 2),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(20),
                               ),
@@ -254,7 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             // Divide the screen width equally among 4 containers
                             decoration: BoxDecoration(
                               color: Colors.grey,
-                              border: Border.all(color: Colors.black, width: 2),
+                              border:
+                                  Border.all(color: Colors.black, width: 2),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(20),
                               ),
@@ -293,7 +307,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return Bfastpage(category: 'lunch',);
+                            return Bfastpage(
+                              category: 'lunch',
+                            );
                           }));
                         },
                         child: const Text(
@@ -319,7 +335,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return Bfastpage(category: 'dinner',);
+                            return Bfastpage(
+                              category: 'dinner',
+                            );
                           }));
                         },
                         child: const Text(
@@ -336,25 +354,31 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            child: const Text(
-              'Top picks for you',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
+          // Container(
+          //   child: const Text(
+          //     'Top picks for you',
+          //     style: TextStyle(
+          //       fontSize: 20,
+          //     ),
+          //   ),
+          // ),
+          //
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Expanded(
+          //   child: ListView.builder(
+          //       itemCount: l1.length,
+          //       itemBuilder: (context, index) {
+          //         return Foodtile(item: l1[index]);
+          //       }),
+          // ),
+          Expanded(
+            child: url.isNotEmpty
+                ? Image.network(url)
+                : Center(child: CircularProgressIndicator()), // Show a loading indicator if URL is empty
           ),
 
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: l1.length,
-                itemBuilder: (context, index) {
-                  return Foodtile(item: l1[index]);
-                }),
-          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

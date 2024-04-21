@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import '../Models/Food_item.dart';
 import '../Models/bfcart_item.dart';
-
+import 'package:flutter/material.dart';
 class fooddata {
   final String dbname;
 
@@ -163,5 +164,34 @@ class qrdatabase {
       // Ensure that a value is returned even in case of an error
       return [];
     }
+  }
+}
+
+class UploadImage{
+  String imageURL = '';
+  Future<String> fetchImageURL() async{
+    CollectionReference _reference =
+    FirebaseFirestore.instance.collection('menu_image');
+
+    await _reference.doc('image1').get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('inside if');
+        // setState(() {
+        //   imageURL = documentSnapshot.data()?['url'] ?? '';
+        imageURL =  documentSnapshot.get('url').toString();
+        // });
+
+      } else {
+          imageURL = 'abc'; // Reset imageURL if document doesn't exis
+        print('Document does not exist on the database');
+      }
+    }).catchError((error) {
+      // setState(() {
+        imageURL = ''; // Reset imageURL on error
+      // });
+      print('Error fetching document: $error');
+    });
+    print('imageUrl = ${imageURL}');
+    return imageURL;
   }
 }

@@ -32,10 +32,10 @@ class _CartScreenState extends State<CartScreen> {
                 color: Colors.black,
               ),
             ),
-            Text(
-              '4 items',
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
+            // Text(
+            //   '4 items',
+            //   style: Theme.of(context).textTheme.labelMedium,
+            // ),
           ],
         ),
       ),

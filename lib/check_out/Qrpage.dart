@@ -40,8 +40,11 @@ class _QRPageState extends State<QRPage> {
           await qrd.searchDocumentByName(widget!.pid);
       print('Temp data is -->${datatemp}');
       if (datatemp.length != 0) {
-        String pidqr = datatemp[0]['pid'];
+        print('${datatemp[1]['pid']}');
+        String pidqr = datatemp[1]['pid'];
+        print('pidqr == ${pidqr}');
         qrdataString = json.encode(pidqr);
+        print('qrdatastring ===${qrdataString}');
         print("yes");
       } else {
         print('NO');
