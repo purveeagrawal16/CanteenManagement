@@ -1,6 +1,8 @@
 import 'package:canteen/Provider/Bfastpro.dart';
 import 'package:canteen/Provider/uidpro.dart';
 import 'package:canteen/services/authfunc.dart';
+import 'package:canteen/wrapper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'login/login.dart';
@@ -27,13 +29,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => Bprovider()),
         ChangeNotifierProvider(create: (context) => uidprovider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          useMaterial3: true,
+      child: StreamProvider<User?>.value(
+        initialData: null,
+        value: auth_function().get_user,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          home: Wrapper(),
         ),
-        home: LoginDemo(),
       ),
     );
   }

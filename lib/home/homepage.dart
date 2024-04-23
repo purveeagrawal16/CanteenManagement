@@ -1,7 +1,9 @@
 import 'dart:ffi';
+import 'package:canteen/breakfast/feedback.dart';
 import 'package:canteen/breakfast/snacks.dart';
 import 'package:canteen/home/categories.dart';
 import 'package:canteen/home/top_picks.dart';
+import 'package:canteen/services/authfunc.dart';
 import 'package:canteen/services/firestorefunc.dart';
 import 'package:flutter/material.dart';
 import '../breakfast/breakfast.dart';
@@ -20,9 +22,9 @@ class _MyHomePageState extends State<MyHomePage> {
   bool buttondisable = false;
   bool buttondisable2 = false;
   String url = '';
-
+  final auth = auth_function();
   @override
-  void initState(){
+  void initState() {
     // TODO: implement initState
     super.initState();
     print(DateTime.now());
@@ -31,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     getURL();
   }
 
-  Future<void> getURL() async{
+  Future<void> getURL() async {
     String newurl = await UploadImage().fetchImageURL();
     setState(() {
       url = newurl;
@@ -94,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.exit_to_app),
             onPressed: () {
               // Handle onPressed for the logout button
+              auth.signout();
             },
           ),
         ],
@@ -216,8 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             // Divide the screen width equally among 4 containers
                             decoration: BoxDecoration(
                               color: Colors.grey,
-                              border:
-                                  Border.all(color: Colors.black, width: 2),
+                              border: Border.all(color: Colors.black, width: 2),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(20),
                               ),
@@ -267,8 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             // Divide the screen width equally among 4 containers
                             decoration: BoxDecoration(
                               color: Colors.grey,
-                              border:
-                                  Border.all(color: Colors.black, width: 2),
+                              border: Border.all(color: Colors.black, width: 2),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(20),
                               ),
@@ -376,9 +377,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Expanded(
             child: url.isNotEmpty
                 ? Image.network(url)
-                : Center(child: CircularProgressIndicator()), // Show a loading indicator if URL is empty
+                : Center(
+                    child:
+                        CircularProgressIndicator()), // Show a loading indicator if URL is empty
           ),
-
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -406,10 +408,13 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: IconButton(
               onPressed: () {
                 // Handle onPressed for the History icon
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return FeedbackForm();
+                }));
               },
-              icon: Icon(Icons.history_outlined),
+              icon: Icon(Icons.account_box),
             ),
-            label: 'History',
+            label: 'Feedback',
           ),
         ],
       ),

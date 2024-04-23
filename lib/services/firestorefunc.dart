@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../Models/Food_item.dart';
 import '../Models/bfcart_item.dart';
 import 'package:flutter/material.dart';
+
 class fooddata {
   final String dbname;
 
@@ -167,27 +168,38 @@ class qrdatabase {
   }
 }
 
-class UploadImage{
-  String imageURL = '';
-  Future<String> fetchImageURL() async{
-    CollectionReference _reference =
-    FirebaseFirestore.instance.collection('menu_image');
+class imagedata {
+  final DocumentReference dref =
+      FirebaseFirestore.instance.collection('menu_image').doc('image1');
+  Future<String> geturl() async {
+    DocumentSnapshot dsc = await dref.get();
+    return dsc.data()?.toString() ?? "";
+  }
+}
 
-    await _reference.doc('image1').get().then((DocumentSnapshot documentSnapshot) {
+class UploadImage {
+  String imageURL = '';
+  Future<String> fetchImageURL() async {
+    CollectionReference _reference =
+        FirebaseFirestore.instance.collection('menu_image');
+
+    await _reference
+        .doc('image1')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         print('inside if');
         // setState(() {
         //   imageURL = documentSnapshot.data()?['url'] ?? '';
-        imageURL =  documentSnapshot.get('url').toString();
+        imageURL = documentSnapshot.get('url').toString();
         // });
-
       } else {
-          imageURL = 'abc'; // Reset imageURL if document doesn't exis
+        imageURL = 'abc'; // Reset imageURL if document doesn't exis
         print('Document does not exist on the database');
       }
     }).catchError((error) {
       // setState(() {
-        imageURL = ''; // Reset imageURL on error
+      imageURL = ''; // Reset imageURL on error
       // });
       print('Error fetching document: $error');
     });
